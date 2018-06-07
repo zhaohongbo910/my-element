@@ -1,15 +1,12 @@
 import React from 'react';
 
 import './Register.scss'
-import { Carousel } from 'element-react';
+import { Link} from 'react-router-dom';
 
+import { Slider } from 'component/Slider/Slider';
 import img1 from 'staticFile/img/backgrounds/1.jpg'
 import img2 from 'staticFile/img/backgrounds/2.jpg'
 import img3 from 'staticFile/img/backgrounds/3.jpg'
-
-import { Link,PropTypes} from 'react-router-dom';
-// import { PropTypes } from 'react-router'
-
 
 
 
@@ -20,26 +17,37 @@ export class Register extends React.Component{
       
         this.state = {
           labelPosition: 'right',
-
             username:'',
             password:'',
             ConfirmPassword:'',
-
+            imgList:[img1,img2,img3]
         };
       }
-      
+      componentDidMount(){
+        this._isMount  = true
+      }
+
+      componentWillUnmount(){
+        this._isMount  = false
+
+      }
+
+
+
+
 
       sendPostRegister(){
+         this._isMounted = true
          if(this.state.username!==""&&this.state.password!==""&&this.state.ConfirmPassword!==""){
            console.log('1111')
-           console.log(this.history)
-           this.context.history.pushState(null, '/some/path')
+           console.log(this)
+            this.props.history.push('/',this.state)
          } 
            
       }
       
       changeVlaue(inKey,event){  
-        event.persist()
+        event.persist()   //  取消合并时间
         if(inKey==='username'){ 
           this.setState({
             username:event.target.value
@@ -54,21 +62,11 @@ export class Register extends React.Component{
           }) 
         }  
       }
-      render() {
-        
+
+      render() {     
         return (
           <div>
-             <Carousel interval="3000" arrow="never" indicator-position='none' className='sliderBox' >
-                {
-                  [img1,img2,img3].map((item, index) => {
-                    return (
-                      <Carousel.Item key={index} >
-                        <img className='sliderImg' src={item} alt=''/>
-                      </Carousel.Item>
-                    )
-                  })
-                }
-            </Carousel>  
+              <Slider imgList={this.state.imgList}/>
           <div className="page-container">
           <h1>Register</h1>
           <form  method="post">
@@ -76,7 +74,6 @@ export class Register extends React.Component{
               <input type="password" className="password" placeholder="Password" value={this.state.password} onChange={this.changeVlaue.bind(this,'password')} />
               <input type="password" className="password" placeholder="ConfirmPassword" value={this.state.ConfirmPassword} onChange={this.changeVlaue.bind(this,'ConfirmPassword')} />
               <button type="button" onClick={this.sendPostRegister.bind(this)}>Sign me Register</button>
-              {/* <button type="button" onClick={this.sendPostLogin.bind(this)}>Sign me in</button> */}
               <Link to='/' style={{color:'#ffffff',textDecoration:'none'}}><h2>Login</h2></Link>
               <div className="error"><span>+</span></div>
            </form>
@@ -95,4 +92,3 @@ export class Register extends React.Component{
 }
 
 
-Register.contextTypes = {history:PropTypes.history}

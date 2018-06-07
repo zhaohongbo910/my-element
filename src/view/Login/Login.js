@@ -1,8 +1,10 @@
 import React from 'react';
 
 import './Login.scss'
-import { Carousel } from 'element-react';
 
+
+
+import { Slider } from 'component/Slider/Slider';
 import img1 from 'staticFile/img/backgrounds/1.jpg'
 import img2 from 'staticFile/img/backgrounds/2.jpg'
 import img3 from 'staticFile/img/backgrounds/3.jpg'
@@ -15,45 +17,73 @@ export class Login extends React.Component{
         super(props);
       
         this.state = {
-          labelPosition: 'right',
-          form: {
-            name: '',
-            region: '',
-            type: ''
-          }
+            labelPosition: 'right',     
+            username: '',
+            password: '',
+            imgList:[img1,img2,img3]
         };
       }
       
+
       
-      sendPostLogin(){
-          console.log('11111111111');
-           
+  
+      
+      componentWillMount(){
+        
+      }
+   
+      
+
+      //  组件被更新时
+      shouldComponentUpdate(extProps,nextState){
+        console.log(extProps,nextState)
+        return true
+      }
+
+      componentDidMount(){
+        this._isMount = true
+      }
+      
+         
+      componentWillUnmount(){
+        this._isMount = false
       }
 
 
-      
+
+      sendPostLogin() {
+
+       if(this.state.username==='admin'){
+          this.props.history.push('/app?Dashboard')
+       }
+         
+     }
+    
+      changeInpVlaue(inKey,event){  
+        event.persist()   //  取消合并时间
+        if(inKey==='username'){ 
+          this.setState({
+            username:event.target.value
+          })
+        }else if(inKey==='password'){
+          this.setState({
+            password:event.target.value
+          })
+        } 
+      }
+
       render() {
         return (
           <div>
-
-             <Carousel interval="5000" arrow="never" indicator-position='none' className='sliderBox'>
-                {
-                  [img1,img2,img3].map((item, index) => {
-                    return (
-                      <Carousel.Item key={index} >
-                        <img className='sliderImg' src={item} alt=''/>
-                      </Carousel.Item>
-                    )
-                  })
-                }
-            </Carousel>  
+            <Slider imgList={this.state.imgList}/>
           <div className="page-container">
           <h1>Login</h1>
           <form  method="post">
-              <input type="text" name="username" className="username" placeholder="Username" />
-              <input type="password" name="password" className="password" placeholder="Password" />
+              <input type="text" name="username" className="username"  value={this.state.username} placeholder="Username" onChange={this.changeInpVlaue.bind(this,'username')} />
+
+              <input type="password" name="password" className="password" value={this.state.password} placeholder="Password" onChange={this.changeInpVlaue.bind(this,'password')} />
+
               <button type="button" onClick={()=>{this.sendPostLogin()}}>Sign me Login</button>
-              {/* <button type="button" onClick={this.sendPostLogin.bind(this)}>Sign me in</button> */}
               <Link to='/reg' style={{color:'#fff',textDecoration:'none'}}><h2>Register</h2></Link>
               <div className="error"><span>+</span></div>
            </form>

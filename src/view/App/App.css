@@ -1,0 +1,11 @@
+.mainContent {
+  overflow-x: hidden;
+  margin-left: 12.5%; }
+
+.silderContent {
+  position: fixed;
+  left: 0;
+  top: 0; }
+
+.mian {
+  height: 100%; }

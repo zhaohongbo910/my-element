@@ -22,7 +22,7 @@ function ensureSlash(path, needsSlash) {
     return path;
   }
 }
-debugger
+
 const getPublicUrl = appPackageJson =>
   envPublicUrl || require(appPackageJson).homepage;
 

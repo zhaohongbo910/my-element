@@ -1,0 +1,12 @@
+a {
+  text-decoration: none; }
+
+.text_left {
+  text-align: left;
+  padding: 0 40px;
+  box-sizing: border-box; }
+
+.el-submenu__title {
+  text-align: left;
+  padding: 0 40px;
+  box-sizing: border-box; }

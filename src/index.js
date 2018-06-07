@@ -6,7 +6,8 @@ import 'element-theme-default';
 import { BrowserRouter } from 'react-router-dom'
 
 import './index.css';
-import { MainRouter } from './Router';
+
+import { MainRouter } from '@/router/RouterConfig';
 
 
 ReactDOM.render( 

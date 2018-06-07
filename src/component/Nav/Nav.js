@@ -1,37 +1,58 @@
 import React from 'react';
+
 import { Menu } from 'element-react'
 import { Link } from 'react-router-dom'
-export class Nav extends React.Component{
-    // constructor(){
-    //     super()
-    // }
-    onOpen() {
 
+
+
+import './Nav.scss'
+
+export class Nav extends React.Component{
+    constructor(props){
+        super()
+        this.state= {
+            defaultActive:"0",
+        }
+    }
+    onOpen() {
+       console.log(this)  
     }
     
     onClose() {
     
     }
+
     render(){
         return(
-              <Menu defaultActive="2" className="el-menu-vertical-demo" onOpen={this.onOpen.bind(this)} onClose={this.onClose.bind(this)}>
-                <Menu.SubMenu index="1" title={<span><i className="el-icon-message"></i>导航一</span>}>
-                  <Menu.ItemGroup title="分组一">
-
-                   <Link to='home'> <Menu.Item index="1-1">home</Menu.Item></Link>
-                   <Link to='login'> <Menu.Item index="1-2">login</Menu.Item></Link>
-                   
-                  </Menu.ItemGroup>
-                  <Menu.ItemGroup title="分组2">
-                    <Menu.Item index="1-3">选项3</Menu.Item>
-                  </Menu.ItemGroup>
-                </Menu.SubMenu>
-                <Menu.Item index="2"><i className="el-icon-menu"></i>导航二</Menu.Item>
-                <Menu.Item index="3"><i className="el-icon-setting"></i>导航三</Menu.Item>
+              <Menu defaultActive={this.state.defaultActive} className="el-menu-vertical-demo" onOpen={this.onOpen.bind(this)} onClose={this.onClose.bind(this)} theme='dark'>
+                {
+                    this.props.sliderNav.map((item,index)=>{
+                        if(item.isSubMenu!==true){
+                           return(
+                            <Link to={item.linkTo} style={{display:item.isShow?'block':'none'}} key={index
+                            }><Menu.Item index={String(index)} className='text_left'><i className={item.icon}></i>{item.title}</Menu.Item></Link>
+                           )
+                        }else{
+                            
+                            return(
+                                <Menu.SubMenu ref='#Menu' index={String(index)} key={index}   title={<span ><i className={item.icon}></i>{item.title}  </span>}>
+                                {
+                                    item.subMenu.map((itemSub,itemIndex)=>{
+                                            return(
+                                                <Link to={itemSub.linkTo} key={index+'-'+itemIndex}>
+                                                    <Menu.Item index={String(index+"-"+itemIndex)}>{itemSub.title}</Menu.Item>
+                                                </Link>
+                                        )
+                                    })      
+                                }
+                                
+                                </Menu.SubMenu>
+          
+                            )
+                        }
+                    }) 
+                }
               </Menu>
         )
     }
-
-   
-
 }
